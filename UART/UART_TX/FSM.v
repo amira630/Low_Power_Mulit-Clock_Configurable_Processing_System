@@ -11,11 +11,11 @@ module FSM(
 );
 
     // State Encoding
-    localparam [1:0] IDLE      = 3'b000,
-                     START_BIT = 3'b001,
-                     DATA_BITS = 3'b011,
-                     PARITY_BIT= 3'b010,
-                     STOP_BIT  = 3'b110;
+    localparam [2:0] IDLE      = 3'b000, // 0
+                     START_BIT = 3'b001, // 1
+                     DATA_BITS = 3'b011, // 3
+                     PARITY_BIT= 3'b010, // 2
+                     STOP_BIT  = 3'b110; // 6
 
     reg [2:0] current_state, next_state;
 
@@ -50,9 +50,7 @@ module FSM(
                 else
                     next_state = DATA_BITS;
             end
-            PARITY_BIT: begin
-                next_state = STOP_BIT;
-            end
+            PARITY_BIT: next_state = STOP_BIT;
             STOP_BIT: begin
                 if (Data_Valid) begin
                     next_state = START_BIT;
